@@ -32,9 +32,9 @@ def main(argv = sys.argv):
 	bib = open(bib_filename,'a') # strip and replace extension
 	bib.write('[\n')
 	
-	print(bib_database.entries[0]['journal']).encode('ascii', 'ignore').decode('unicode_escape').strip()
-	#for entrie in bib_database.entries:
-	#	r2b_write(entrie,bib)
+	#print(bib_database.entries[0]['journal']).encode('ascii', 'ignore').decode('unicode_escape').strip()
+	for entrie in bib_database.entries:
+		r2b_write(entrie,bib)
 
 	bib.write(']')
 	bib.close()	
