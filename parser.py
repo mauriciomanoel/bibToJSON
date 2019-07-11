@@ -30,36 +30,37 @@ def main(argv = sys.argv):
 def r2b_write(entrie,bib):
 	bib.write('\t{\n') # get surname of first author slicing to ','
 	id = entrie['ID'].replace(" ", "").replace("'", "").replace("-","").replace("/","").replace("_","").replace(".","").encode('utf-8').strip()
-	bib.write('\t\t"id": "' + id + '",\n')
+	bib.write('\t\t"id": "' + id + '"')
 	if 'title' in entrie:
-		title = entrie['title'].encode('utf-8').strip()
-		bib.write('\t\t"title": "' + title.replace('"', '\\"') + '",\n')
+		#title = entrie['title'].encode('utf-8').strip()
+		title = entrie['title'].replace("{\'{c}}", "c").encode('utf-8').strip()
+		bib.write(',\n\t\t"title": "' + title.replace('"', '\\"') + '"')
 	if 'author' in entrie:
 		author = entrie['author'].encode('utf-8').strip()
-		bib.write('\t\t"author": "' + author.replace('\n', ', ') + '",\n')		
+		bib.write(',\n\t\t"author": "' + author.replace('\n', ', ') + '"')		
 	if 'publisher' in entrie:
-		bib.write('\t\t"publisher": "' + entrie['publisher'] + '",\n')
+		bib.write(',\n\t\t"publisher": "' + entrie['publisher'] + '"')
 	if 'doi' in entrie:
-		bib.write('\t\t"doi": "' + entrie['doi'] + '",\n')	
+		bib.write(',\n\t\t"doi": "' + entrie['doi'] + '"')	
 	if 'isbn' in entrie:
-		bib.write('\t\t"isbn": "' + entrie['isbn'] + '",\n')	
+		bib.write(',\n\t\t"isbn": "' + entrie['isbn'] + '"')	
 	if 'abstract' in entrie:
 		abstract = entrie['abstract'].encode('utf-8').strip()
-		bib.write('\t\t"abstract": "' + abstract.replace('"', '\\"').replace("`","'") + '",\n')
+		bib.write(',\n\t\t"abstract": "' + abstract.replace('"', '\\"').replace("`","'") + '"')
 	if 'pages' in entrie:
-		bib.write('\t\t"pages": "' + entrie['pages'] + '",\n')
+		bib.write(',\n\t\t"pages": "' + entrie['pages'] + '"')
 	if 'year' in entrie:
-		bib.write('\t\t"year": "' + entrie['year'] + '",\n')
+		bib.write(',\n\t\t"year": "' + entrie['year'] + '"')
 	if 'url_article' in entrie:
-		bib.write('\t\t"url_article": "' + entrie['url_article'] + '",\n')
+		bib.write(',\n\t\t"url_article": "' + entrie['url_article'] + '"')
 	if 'journal' in entrie:
-		bib.write('\t\t"journal": "' + entrie['journal'] + '",\n')
+		bib.write(',\n\t\t"journal": "' + entrie['journal'] + '"')
 	if 'month' in entrie:
-		bib.write('\t\t"month": "' + entrie['month'] + '",\n')
+		bib.write(',\n\t\t"month": "' + entrie['month'] + '"')
 	if 'volume' in entrie:
-		bib.write('\t\t"volume": "' + entrie['volume'] + '",\n')
+		bib.write(',\n\t\t"volume": "' + entrie['volume'] + '"')
 	if 'day' in entrie:
-		bib.write('\t\t"day": "' + entrie['day'] + '",\n')
+		bib.write(',\n\t\t"day": "' + entrie['day'] + '"\n')
 	bib.write("\t},\n")
 	
 if __name__ == '__main__':
