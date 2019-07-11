@@ -45,7 +45,7 @@ def r2b_write(entrie,bib):
 		bib.write('\t\t"isbn": "' + entrie['isbn'] + '",\n')	
 	if 'abstract' in entrie:
 		abstract = entrie['abstract'].encode('utf-8').strip()
-		bib.write('\t\t"abstract": "' + abstract.replace('"', '\\"').replace("`","") + '",\n')
+		bib.write('\t\t"abstract": "' + abstract.replace('"', '\\"').replace("`","'") + '",\n')
 	if 'pages' in entrie:
 		bib.write('\t\t"pages": "' + entrie['pages'] + '",\n')
 	if 'year' in entrie:
