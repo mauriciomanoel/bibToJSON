@@ -33,9 +33,14 @@ def main(argv = sys.argv):
 	bib.write('[\n')
 	
 	#print(bib_database.entries[0]['journal']).encode('ascii', 'ignore').decode('unicode_escape').strip()
+	i = 1
 	for entrie in bib_database.entries:
 		r2b_write(entrie,bib)
+		if (i != len(bib_database.entries)):
+			bib.write(",\n")
+		i = i + 1
 
+	bib.write("\n")
 	bib.write(']')
 	bib.close()	
 	
@@ -44,12 +49,13 @@ def r2b_write(entrie,bib):
 	id = entrie['ID'].replace(" ", "").replace("'", "").replace("-","").replace("/","").replace("_","").replace(".","").encode('utf-8').strip()
 	bib.write('\t\t"id": "' + id + '"')
 	if 'title' in entrie:
-		#title = entrie['title'].encode('utf-8').strip()
-		title = entrie['title'].replace("{\_}", "_").replace("{\$}{\$}{\\backslash}mathcal{\{}PI{\}}{\$}{\$}", "PI").replace("{\\'{c}}", "c").replace("{\"u}", "u").replace("{\\&}", "&").replace("T{\\\"u}", "Tu").encode('utf-8').strip()
+		title = entrie['title'].replace("{\_}", "_").replace("{","").replace("}","").replace("'","").replace("\"","").replace("\\","").replace("{\$}{\$}{\\backslash}mathcal{\{}PI{\}}{\$}{\$}", "PI").replace("{\\'{c}}", "c").replace("{\"u}", "u").replace("{\\&}", "&").replace("T{\\\"u}", "Tu").encode('utf-8').strip()
 		bib.write(',\n\t\t"title": "' + title.replace('"', '\\"') + '"')
 	if 'author' in entrie:
-		author = entrie['author'].replace("{\\o}","o").replace("{\\v{s}}","s").replace("{\\u{g}}", "g").replace("{\\v{Z}}", "Z").replace("{\\l}", "l").replace("{\\i}","i").replace("{\\\"O}","O").replace("\\\"u}","u").replace("{\.{I}}","I").replace("{\\v{z}}","").replace("{\\v{e}}","").replace("{\\`A}", "A").replace("{\\ae}", "e").replace("{\\v{E}}","E").replace("{\\~{n}}", "n").replace("{\\`o}","o").replace("{\\aa}","a").replace("{\\c{c}}","c").replace("{\\'{c}}", "c").replace("{\\'u}", "u").replace("{\\'i}", "i").replace("{\\`e}","e").replace("{\\'o}", "o").replace("{\\'a}", "a").replace("{\\v{n}}","n").replace("{\\v{c}}","c").replace("{\\v{n}}", "n").replace("{\~a}", "a").replace("{\\`a}", "a").replace("{\\'A}", "A").replace("{\\'e}", "e").encode('utf-8').strip()
+		author = entrie['author'].replace("{","").replace("}","").replace("'","").replace("\"","").replace("\\","").replace("{\\o}","o").replace("{\\v{s}}","s").replace("{\\u{g}}", "g").replace("{\\v{Z}}", "Z").replace("{\\l}", "l").replace("{\\i}","i").replace("{\\\"O}","O").replace("\\\"u}","u").replace("{\.{I}}","I").replace("{\\v{z}}","").replace("{\\v{e}}","").replace("{\\`A}", "A").replace("{\\ae}", "e").replace("{\\v{E}}","E").replace("{\\~{n}}", "n").replace("{\\`o}","o").replace("{\\aa}","a").replace("{\\c{c}}","c").replace("{\\'{c}}", "c").replace("{\\'u}", "u").replace("{\\'i}", "i").replace("{\\`e}","e").replace("{\\'o}", "o").replace("{\\'a}", "a").replace("{\\v{n}}","n").replace("{\\v{c}}","c").replace("{\\v{n}}", "n").replace("{\~a}", "a").replace("{\\`a}", "a").replace("{\\'A}", "A").replace("{\\'e}", "e").encode('utf-8').strip()
 		bib.write(',\n\t\t"author": "' + author.replace('\n', ', ') + '"')	
+	if 'keywords' in entrie:
+		bib.write(',\n\t\t"keywords": "' + entrie['keywords'].strip().encode('utf-8').strip().replace(" ,", ", ") + '"')
 	if 'publisher' in entrie:
 		bib.write(',\n\t\t"publisher": "' + entrie['publisher'] + '"')
 	if 'doi' in entrie:
@@ -65,15 +71,23 @@ def r2b_write(entrie,bib):
 		bib.write(',\n\t\t"year": "' + entrie['year'] + '"')
 	if 'url_article' in entrie:
 		bib.write(',\n\t\t"url_article": "' + entrie['url_article'] + '"')
+	elif 'url_article' not in entrie:
+		bib.write(',\n\t\t"url_article": "https://doi.org/' + entrie['ID'].encode('utf-8').strip() + '"')
+	elif 'url' in entrie:
+		bib.write(',\n\t\t"url_article": "' + entrie['url'] + '"')
 	if 'journal' in entrie:
-		bib.write(',\n\t\t"journal": "' + entrie['journal'].replace("{\\&}", "&").replace("{\\'e}","e") + '"')
+		bib.write(',\n\t\t"journal": "' + entrie['journal'].replace("{\\&}", "&").replace("{\\'e}","e").replace("{","").replace("}","").replace("'","").replace("\"","").replace("\\","") + '"')
 	if 'month' in entrie:
 		bib.write(',\n\t\t"month": "' + entrie['month'] + '"')
 	if 'volume' in entrie:
 		bib.write(',\n\t\t"volume": "' + entrie['volume'] + '"')
 	if 'day' in entrie:
-		bib.write(',\n\t\t"day": "' + entrie['day'] + '"\n')
-	bib.write("\t},\n")
+		bib.write(',\n\t\t"day": "' + entrie['day'] + '"')
+	if 'citations' in entrie:
+		bib.write(',\n\t\t"citations": "' + entrie['citations'] + '"')
+	if 'downloads' in entrie:
+		bib.write(',\n\t\t"downloads": "' + entrie['downloads'] + '"')									
+	bib.write("\n\t}")
 	
 if __name__ == '__main__':
 	main()	
