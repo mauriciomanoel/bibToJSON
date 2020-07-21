@@ -49,6 +49,8 @@ def r2b_write(entrie,bib):
 	bib.write('\t{\n') # get surname of first author slicing to ','
 	id = entrie['ID'].replace(" ", "").replace("'", "").replace("-","").replace("/","").replace("_","").replace(".","").encode('utf-8').strip()
 	bib.write('\t\t"id": "' + id + '"')
+	if 'ENTRYTYPE' in entrie:
+		bib.write(',\n\t\t"type": "' + entrie['ENTRYTYPE'] + '"')
 	if 'title' in entrie:
 		title = entrie['title'].replace("{\_}", "_").replace("{","").replace("}","").replace("'","").replace("\"","").replace("\\","").replace("{\$}{\$}{\\backslash}mathcal{\{}PI{\}}{\$}{\$}", "PI").replace("{\\'{c}}", "c").replace("{\"u}", "u").replace("{\\&}", "&").replace("T{\\\"u}", "Tu").encode('utf-8').strip()
 		bib.write(',\n\t\t"title": "' + title.replace('"', '\\"') + '"')
