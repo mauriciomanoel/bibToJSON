@@ -49,6 +49,7 @@ def r2b_write(entrie,bib):
 	bib.write('\t{\n') # get surname of first author slicing to ','
 	id = entrie['ID'].replace(" ", "").replace("'", "").replace("-","").replace("/","").replace("_","").replace(".","").encode('utf-8').strip()
 	bib.write('\t\t"id": "' + id + '"')
+	bib.write(',\n\t\t"source_id": "' + entrie['ID'].encode('utf-8').strip() + '"')
 	if 'ENTRYTYPE' in entrie:
 		bib.write(',\n\t\t"type": "' + entrie['ENTRYTYPE'] + '"')
 	if 'title' in entrie:
@@ -59,17 +60,19 @@ def r2b_write(entrie,bib):
 		bib.write(',\n\t\t"author": "' + author.replace('\n', ', ') + '"')	
 	if 'keywords' in entrie:
 		bib.write(',\n\t\t"keywords": "' + entrie['keywords'].strip().encode('utf-8').strip().replace('\r\n',"").replace(" ,", ", ").replace("{","").replace("}","").replace("'","").replace("\"","").replace("\\","") + '"')
+	if 'author_keywords' in entrie:
+		bib.write(',\n\t\t"keywords": "' + entrie['author_keywords'].strip().encode('utf-8').strip().replace('\r\n',"").replace(" ,", ", ").replace("{","").replace("}","").replace("'","").replace("\"","").replace("\\","") + '"')		
 	if 'publisher' in entrie:
 		bib.write(',\n\t\t"publisher": "' + entrie['publisher'] + '"')
 	if 'doi' in entrie:
-		bib.write(',\n\t\t"doi": "' + entrie['doi'] + '"')	
+		bib.write(',\n\t\t"doi": "' + entrie['doi'] + '"')
 	if 'isbn' in entrie:
 		bib.write(',\n\t\t"isbn": "' + entrie['isbn'] + '"')	
 	if 'abstract' in entrie:
 		abstract = entrie['abstract'].replace('\r\n',"").replace("{","").replace("\\","").replace("}","").replace("{\\{}", "").replace("{\\}}", "").replace("{\\$}","").replace("Prot{\\e}g{\\e}","Protege").encode('utf-8').strip()
 		bib.write(',\n\t\t"abstract": "' + abstract.replace('\r', '').replace('\n', ' ').replace("{\$}{\$}{\\backslash}mathcal{\{}PI{\}}{\$}{\$}", "PI").replace("{\\&}", "&").replace('{\\e}',"e").replace("{\\ldots}", "").replace('"', '\\"').replace("`","'").replace("'","").replace("{\\thinspace}", "").replace("{\\%}", "%").replace("{\_}", "_") + '"')
 	if 'pages' in entrie:
-		bib.write(',\n\t\t"pages": "' + entrie['pages'] + '"')
+		bib.write(',\n\t\t"pages": "' + entrie['pages'].encode('utf-8') + '"')
 	if 'year' in entrie:
 		bib.write(',\n\t\t"year": "' + entrie['year'] + '"')
 	if 'url_article' in entrie:
