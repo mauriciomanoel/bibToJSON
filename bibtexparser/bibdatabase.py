@@ -110,6 +110,7 @@ class BibDatabase(object):
 
     def expand_string(self, name):
         try:
+            print(name)
             return BibDataStringExpression.expand_if_expression(
                 self.strings[name])
         except KeyError:
