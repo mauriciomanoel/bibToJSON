@@ -67,9 +67,9 @@ class BibDatabase(object):
         self.comments = []
         #: OrderedDict of BibTeX string definitions (`@string{...}`). In order of definition.
         self.strings = OrderedDict()  # Not sure if order is import, keep order just in case
+        self.strings.update(COMMON_STRINGS)
         #: List of BibTeX preamble (`@preamble{...}`) blocks.
         self.preambles = []
-
         #: List of fields that should not be updated when resolving crossrefs
         self._not_updated_by_crossref = ['_FROM_CROSSREF']
 
@@ -110,9 +110,13 @@ class BibDatabase(object):
 
     def expand_string(self, name):
         try:
+<<<<<<< HEAD
             print(name)
             return BibDataStringExpression.expand_if_expression(
                 self.strings[name])
+=======
+            return BibDataStringExpression.expand_if_expression(self.strings[name])
+>>>>>>> 0630c4f512dc454d7b0c38ee30d45b778bb3db24
         except KeyError:
             raise(UndefinedString(name))
 
